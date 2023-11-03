@@ -13,14 +13,20 @@ public class ShopRepository {
     }
 
     public void add(Product product) {
+
         products = addToArray(products, product);
     }
 
     public Product[] findAll() {
+
         return products;
     }
 
     public void remove(int id) {
+        Product removeById = findById(id);
+        if (removeById == null) {
+            throw new NotFoundException(id);
+        }
         Product[] tmp = new Product[products.length - 1];
         int copyToIndex = 0;
         for (Product product : products) {
@@ -30,6 +36,15 @@ public class ShopRepository {
             }
         }
         products = tmp;
+    }
+
+    public Product findById(int id) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
     }
 
 }
